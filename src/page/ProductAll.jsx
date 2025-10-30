@@ -1,11 +1,16 @@
 import { useEffect, useState } from "react";
 import ProductCard from "../Component/ProductCard";
+import { useSearchParams } from "react-router-dom";
 
 
 const ProductAll = () => {
   const [productList, setProductList] = useState([]);
+  const [query, setQuery] = useSearchParams();
+
   const getProducts = async () => {
-    let url = `http://localhost:3003/products`;
+    let searchQuery = query.get("q") || "";
+    console.log("쿼리값",searchQuery);
+    let url = `https://my-json-server.typicode.com/eeeunhey/Temburins_Clone/products?q=${searchQuery}`;
     let res = await fetch(url);
     let data = await res.json();
     console.log(data);
@@ -14,7 +19,7 @@ const ProductAll = () => {
 
   useEffect(() => {
     getProducts();
-  }, []);
+  }, [query]);
 
   return (
     <div>

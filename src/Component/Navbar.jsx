@@ -7,11 +7,10 @@ import { useState } from "react";
 const MENU = ["SUNSHINE", "PERFUME", "HAND&LIP", "BODY", "HOME FRAGRANCE"];
 
 const Navbar = () => {
-  // 모바일 메뉴 열림/닫힘
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  // true: 로그인됨, false: 로그아웃
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   const navigate = useNavigate();
 
@@ -21,6 +20,15 @@ const Navbar = () => {
     } else {
       navigate("/login");
       setIsLoggedIn(true);
+    }
+  };
+
+  const search = (e) => {
+    if (e.key === "Enter") {
+      console.log("뭐가 눌렸나", e.key);
+      let keyword = e.target.value;
+      console.log(keyword);
+      navigate(`/?q=${keyword}`);
     }
   };
 
@@ -40,8 +48,8 @@ const Navbar = () => {
         </Link>
         <div className="flex items-center gap-4 md:hidden">
           <button
-            aria-label="검색"
             className="h-9 w-9 flex items-center justify-center rounded-lg hover:bg-neutral-100"
+            onClick={() => setIsSearchOpen(!isSearchOpen)}
           >
             <Search className="w-5 h-5 text-neutral-900" />
           </button>
@@ -79,6 +87,7 @@ const Navbar = () => {
             type="text"
             placeholder="찾으시는 상품을 입력하세요"
             className="w-full bg-neutral-50 border border-transparent rounded-xl pl-9 pr-3 py-2 text-sm text-gray-700 placeholder:text-gray-400 shadow-sm  outline-none"
+            onKeyDown={search}
           />
         </div>
 
@@ -100,6 +109,18 @@ const Navbar = () => {
           )}
         </button>
       </div>
+
+      {isSearchOpen && (
+        <div className="col-span-3 md:hidden px-6 mt-3">
+          <input
+            type="text"
+            placeholder="찾으시는 상품을 입력하세요"
+            className="w-full bg-neutral-50 border border-gray-300 rounded-xl px-4 py-2 text-sm shadow-sm outline-none"
+            onKeyDown={search}
+            autoFocus
+          />
+        </div>
+      )}
 
       {isMenuOpen && (
         <div className="fixed inset-0 z-50 bg-white md:hidden">

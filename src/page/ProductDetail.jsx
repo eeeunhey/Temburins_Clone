@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Container, Row, Col, Button, Form } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
+
 
 const ProductDetail = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
+
   const getProductDetail = async () => {
-    let url = `https://my-json-server.typicode.com/eeeunhey/Temburins_Clone?id=${id}`;
+    let url = `https://my-json-server.typicode.com/eeeunhey/Temburins_Clone/products?id=${id}`;
     let res = await fetch(url);
     let data = await res.json();
     console.log("디테일", data);
